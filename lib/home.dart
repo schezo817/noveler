@@ -1,5 +1,7 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'admob.dart';
 import 'edit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Func.dart';
@@ -47,11 +49,54 @@ class _HomeState extends State<Home> {
           itemCount: itemCount,
           itemBuilder: (context, i) {
             if (i.isOdd) {
-              return const Divider(
+              return Divider(
                 height: 2,
+                key: Key("divider" + i.toString()),
               );
             }
-            return _buildWrappedRow((i / 2).floor());
+            return Dismissible(
+              background: Container(color: Colors.red),
+              key: UniqueKey(),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) {
+                setState(() {
+                  _titleList.removeAt((i / 2).floor());
+                  _memoList.removeAt((i / 2).floor());
+                  _forwardList.removeAt((i / 2).floor());
+                  _backList.removeAt((i / 2).floor());
+                  storeList(_memoList, "memo-list");
+                  storeList(_titleList, "title-list");
+                  storeList(_forwardList, "forward-list");
+                  storeList(_backList, "back-list");
+                });
+              },
+              child: ListTile(
+                title: Text(
+                  _titleList[(i / 2).floor()],
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                onTap: () {
+                  _currentIndex = (i / 2).floor();
+                  Func.movePage(
+                    context,
+                    Edit(
+                      title: _titleList[_currentIndex],
+                      current: _memoList[_currentIndex],
+                      forward: _forwardList[_currentIndex],
+                      back: _backList[_currentIndex],
+                      onChangedTitle: _onChangedTitle,
+                      onChangedBody: _onChangedBody,
+                      onChangedForward: _onChangedForward,
+                      onChangedBack: _onChangedBack,
+                    ),
+                  );
+                },
+              ),
+            );
           },
         ),
         floatingActionButton: FloatingActionButton(
@@ -83,6 +128,14 @@ class _HomeState extends State<Home> {
           },
           child: const Icon(
             Icons.add,
+          ),
+        ),
+        bottomNavigationBar: AdmobBanner(
+          adUnitId: AdMobService().getBannerAdUnitId(),
+          adSize: AdmobBannerSize(
+            width: MediaQuery.of(context).size.width.toInt(),
+            height: AdMobService().getHeight(context).toInt(),
+            name: 'SMART_BANNER',
           ),
         ),
       ),
@@ -148,27 +201,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Widget _buildWrappedRow(int index) {
-    return Dismissible(
-      background: Container(color: Colors.red),
-      key: UniqueKey(),
-      direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        setState(() {
-          _titleList.removeAt(index);
-          _memoList.removeAt(index);
-          _forwardList.removeAt(index);
-          _backList.removeAt(index);
-          storeList(_memoList, "memo-list");
-          storeList(_titleList, "title-list");
-          storeList(_forwardList, "forward-list");
-          storeList(_backList, "back-list");
-        });
-      },
-      child: _buildRow(index),
-    );
-  }
-
   Widget _allClearMemo() {
     return IconButton(
       icon: Icon(Icons.clear),
@@ -183,35 +215,6 @@ class _HomeState extends State<Home> {
           storeList(_forwardList, "forward-list");
           storeList(_backList, "back-list");
         });
-      },
-    );
-  }
-
-  Widget _buildRow(int index) {
-    return ListTile(
-      title: Text(
-        _titleList[index],
-        style: TextStyle(
-          fontSize: 18,
-        ),
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-      ),
-      onTap: () {
-        _currentIndex = index;
-        Func.movePage(
-          context,
-          Edit(
-            title: _titleList[_currentIndex],
-            current: _memoList[_currentIndex],
-            forward: _forwardList[_currentIndex],
-            back: _backList[_currentIndex],
-            onChangedTitle: _onChangedTitle,
-            onChangedBody: _onChangedBody,
-            onChangedForward: _onChangedForward,
-            onChangedBack: _onChangedBack,
-          ),
-        );
       },
     );
   }
