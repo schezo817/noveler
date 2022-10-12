@@ -7,6 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Func.dart';
 
 class Home extends StatefulWidget {
+  String novelTitle;
+
+  Home({
+    required this.novelTitle,
+  });
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -35,11 +41,11 @@ class _HomeState extends State<Home> {
     }
     return WillPopScope(
       onWillPop: () async {
-        return false;
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Noveler"),
+          title: Text(widget.novelTitle),
           actions: [
             _allClearMemo(),
           ],
@@ -64,10 +70,10 @@ class _HomeState extends State<Home> {
                   _memoList.removeAt((i / 2).floor());
                   _forwardList.removeAt((i / 2).floor());
                   _backList.removeAt((i / 2).floor());
-                  storeList(_memoList, "memo-list");
-                  storeList(_titleList, "title-list");
-                  storeList(_forwardList, "forward-list");
-                  storeList(_backList, "back-list");
+                  storeList(_memoList, widget.novelTitle+"memo-list");
+                  storeList(_titleList, widget.novelTitle+"title-list");
+                  storeList(_forwardList, widget.novelTitle+"forward-list");
+                  storeList(_backList, widget.novelTitle+"back-list");
                 });
               },
               child: ListTile(
@@ -107,10 +113,10 @@ class _HomeState extends State<Home> {
               _forwardList.add("");
               _backList.add("");
               _currentIndex = _titleList.length - 1;
-              storeList(_memoList, "memo-list");
-              storeList(_titleList, "title-list");
-              storeList(_forwardList, "forward-list");
-              storeList(_backList, "back-list");
+              storeList(_memoList, widget.novelTitle+"memo-list");
+              storeList(_titleList, widget.novelTitle+"title-list");
+              storeList(_forwardList, widget.novelTitle+"forward-list");
+              storeList(_backList, widget.novelTitle+"back-list");
               Func.movePage(
                 context,
                 Edit(
@@ -146,10 +152,10 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     SharedPreferences.getInstance().then((prefs) {
-      const key = "memo-list";
-      const key2 = "title-list";
-      const key3 = "forward-list";
-      const key4 = "back-list";
+      var key = widget.novelTitle+"memo-list";
+      var key2 = widget.novelTitle+"title-list";
+      var key3 = widget.novelTitle+"forward-list";
+      var key4 = widget.novelTitle+"back-list";
       if (prefs.containsKey(key)) {
         _memoList = prefs.getStringList(key)!;
       }
@@ -176,28 +182,28 @@ class _HomeState extends State<Home> {
   void _onChangedBody(String text) {
     setState(() {
       _memoList[_currentIndex] = text;
-      storeList(_memoList, "memo-list");
+      storeList(_memoList, widget.novelTitle+"memo-list");
     });
   }
 
   void _onChangedTitle(String text) {
     setState(() {
       _titleList[_currentIndex] = text;
-      storeList(_titleList, "title-list");
+      storeList(_titleList, widget.novelTitle+"title-list");
     });
   }
 
   void _onChangedForward(String text) {
     setState(() {
       _forwardList[_currentIndex] = text;
-      storeList(_forwardList, "forward-list");
+      storeList(_forwardList, widget.novelTitle+"forward-list");
     });
   }
 
   void _onChangedBack(String text) {
     setState(() {
       _backList[_currentIndex] = text;
-      storeList(_backList, "back-list");
+      storeList(_backList, widget.novelTitle+"back-list");
     });
   }
 
@@ -210,10 +216,10 @@ class _HomeState extends State<Home> {
           _memoList.clear();
           _forwardList.clear();
           _backList.clear();
-          storeList(_memoList, "memo-list");
-          storeList(_titleList, "title-list");
-          storeList(_forwardList, "forward-list");
-          storeList(_backList, "back-list");
+          storeList(_memoList, widget.novelTitle+"memo-list");
+          storeList(_titleList, widget.novelTitle+"title-list");
+          storeList(_forwardList, widget.novelTitle+"forward-list");
+          storeList(_backList, widget.novelTitle+"back-list");
         });
       },
     );

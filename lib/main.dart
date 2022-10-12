@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'func.dart';
-import 'home.dart';
+import 'select_novel.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Home(),
+      home: SelectNovel(),
     );
   }
 }
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
           child: TextButton(
             onPressed: () {
-              Func.movePage(context, Home());
+              Func.movePage(context, SelectNovel());
             },
             child: Text("Next"),
           ),
