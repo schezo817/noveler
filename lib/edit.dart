@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'func.dart';
-import 'Home.dart';
 
 class Edit extends StatefulWidget {
   String title;
@@ -44,6 +45,25 @@ class _EditState extends State<Edit> {
           title: Text(widget.title),
           actions: [
             Func.myShare(),
+            TextButton(
+              onPressed: () async {
+                var url = "https://syosetu.com/";
+                if (await canLaunchUrlString(url)) {
+                  await launchUrlString(
+                    url,
+                    mode: LaunchMode.externalApplication,
+                  );
+                } else {
+                  throw 'Unable to launch url $url';
+                }
+              },
+              child: Text(
+                "投稿",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ],
         ),
         body: SingleChildScrollView(
@@ -87,13 +107,13 @@ class _EditState extends State<Edit> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             var sentence = "";
-            if(_isTrueindex ==0){
+            if (_isTrueindex == 0) {
               sentence = widget.current;
             }
-            if(_isTrueindex == 1){
+            if (_isTrueindex == 1) {
               sentence = widget.forward;
             }
-            if(_isTrueindex == 2){
+            if (_isTrueindex == 2) {
               sentence = widget.back;
             }
             await Clipboard.setData(

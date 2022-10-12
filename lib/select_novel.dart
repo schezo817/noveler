@@ -38,7 +38,7 @@ class _SelectNovelState extends State<SelectNovel> {
         appBar: AppBar(
           title: Text("Noveler"),
           actions: [
-            _allClearMemo(),
+            // _allClearMemo(),
           ],
         ),
         drawer: Drawer(
@@ -63,6 +63,19 @@ class _SelectNovelState extends State<SelectNovel> {
                   child: Text("プライバシーポリシー"),
                 ),
               ),
+              /*
+              ListTile(
+                title: TextButton(
+                  onPressed: () async {
+                    await Func.movePage(
+                      context,
+                    );
+                  },
+                  child: Text("投稿ボタンのリンク変更"),
+                ),
+              ),
+
+               */
             ],
           ),
         ),
@@ -155,14 +168,13 @@ class _SelectNovelState extends State<SelectNovel> {
       }
       if (prefs.containsKey(key2)) {
         _consent = prefs.getBool(key2)!;
-        if(!_consent) {
+        if (!_consent) {
           Func.movePage(context, Consent());
           _consent = true;
           storeBoolean(_consent, key2);
         }
       }
     });
-
   }
 
   void storeList(List<String> textList, String key) async {
@@ -180,8 +192,6 @@ class _SelectNovelState extends State<SelectNovel> {
       debugPrint("Failed to store value");
     }
   }
-
-
 
   Widget _allClearMemo() {
     return IconButton(

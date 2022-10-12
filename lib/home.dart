@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: Text(widget.novelTitle),
           actions: [
-            _allClearMemo(),
+             // _allClearMemo(),
           ],
         ),
         body: ListView.builder(

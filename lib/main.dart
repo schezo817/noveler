@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () {
               Func.movePage(context, SelectNovel());
             },
-            child: Text("Next"),
+            child: const Text("Next"),
           ),
       ),
     );
