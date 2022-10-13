@@ -26,10 +26,6 @@ class _SelectNovelState extends State<SelectNovel> {
 
   @override
   Widget build(BuildContext context) {
-    var itemCount = _novelList.length * 2;
-    if (itemCount < 0) {
-      itemCount = 0;
-    }
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -79,48 +75,62 @@ class _SelectNovelState extends State<SelectNovel> {
             ],
           ),
         ),
-        body: ListView.builder(
-          padding: const EdgeInsets.all(8.0),
-          itemCount: itemCount,
-          itemBuilder: (context, i) {
-            if (i.isOdd) {
-              return Divider(
-                height: 2,
-                key: Key("NovelerDivider" + i.toString()),
-              );
-            }
-            return Dismissible(
-              background: Container(color: Colors.red),
-              key: UniqueKey(),
-              direction: DismissDirection.endToStart,
-              onDismissed: (direction) {
-                setState(() {
-                  _novelList.removeAt((i / 2).floor());
-                  storeList(_novelList, "novel-list");
-                });
-              },
-              child: ListTile(
-                title: Text(
-                  _novelList[(i / 2).floor()],
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                onTap: () {
-                  _currentIndex = (i / 2).floor();
-                  Func.movePage(
-                    context,
-                    Home(
-                      novelTitle: _novelList[_currentIndex],
-                    ),
-                  );
-                },
-              ),
-            );
-          },
-        ),
+        body: FutureBuilder(
+            future: loadStart(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                var itemCount = _novelList.length * 2;
+                if (itemCount < 0) {
+                  itemCount = 0;
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: itemCount,
+                  itemBuilder: (context, i) {
+                    if (i.isOdd) {
+                      return Divider(
+                        height: 2,
+                        key: Key("NovelerDivider" + i.toString()),
+                      );
+                    }
+                    return Dismissible(
+                      background: Container(color: Colors.red),
+                      key: UniqueKey(),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction) {
+                        setState(() {
+                          _novelList.removeAt((i / 2).floor());
+                          storeList(_novelList, "novel-list");
+                        });
+                      },
+                      child: ListTile(
+                        title: Text(
+                          _novelList[(i / 2).floor()],
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        onTap: () {
+                          _currentIndex = (i / 2).floor();
+                          Func.movePage(
+                            context,
+                            Home(
+                              novelTitle: _novelList[_currentIndex],
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return const Center(
+                  child: Text("loading..."),
+                );
+              }
+            }),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             String? _novelTitle = await showDialog<String>(
@@ -160,21 +170,28 @@ class _SelectNovelState extends State<SelectNovel> {
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((prefs) {
-      const key = "novel-list";
-      const key2 = "consent";
-      if (prefs.containsKey(key)) {
-        _novelList = prefs.getStringList(key)!;
-      }
-      if (prefs.containsKey(key2)) {
-        _consent = prefs.getBool(key2)!;
-        if (!_consent) {
-          Func.movePage(context, Consent());
-          _consent = true;
-          storeBoolean(_consent, key2);
+    loadStart();
+  }
+
+  Future<List<String>> loadStart() async {
+    await SharedPreferences.getInstance().then(
+      (prefs) {
+        const key = "novel-list";
+        const key2 = "consent";
+        if (prefs.containsKey(key)) {
+          _novelList = prefs.getStringList(key)!;
         }
-      }
-    });
+        if (prefs.containsKey(key2)) {
+          _consent = prefs.getBool(key2)!;
+          if (!_consent) {
+            Func.movePage(context, Consent());
+            _consent = true;
+            storeBoolean(_consent, key2);
+          }
+        }
+      },
+    );
+    return _novelList;
   }
 
   void storeList(List<String> textList, String key) async {

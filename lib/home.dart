@@ -35,10 +35,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var itemCount = _titleList.length * 2;
-    if (itemCount < 0) {
-      itemCount = 0;
-    }
     return WillPopScope(
       onWillPop: () async {
         return true;
@@ -47,64 +43,80 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: Text(widget.novelTitle),
           actions: [
-             // _allClearMemo(),
+            // _allClearMemo(),
           ],
         ),
-        body: ListView.builder(
-          padding: const EdgeInsets.all(8.0),
-          itemCount: itemCount,
-          itemBuilder: (context, i) {
-            if (i.isOdd) {
-              return Divider(
-                height: 2,
-                key: Key("divider" + i.toString()),
-              );
-            }
-            return Dismissible(
-              background: Container(color: Colors.red),
-              key: UniqueKey(),
-              direction: DismissDirection.endToStart,
-              onDismissed: (direction) {
-                setState(() {
-                  _titleList.removeAt((i / 2).floor());
-                  _memoList.removeAt((i / 2).floor());
-                  _forwardList.removeAt((i / 2).floor());
-                  _backList.removeAt((i / 2).floor());
-                  storeList(_memoList, widget.novelTitle+"memo-list");
-                  storeList(_titleList, widget.novelTitle+"title-list");
-                  storeList(_forwardList, widget.novelTitle+"forward-list");
-                  storeList(_backList, widget.novelTitle+"back-list");
-                });
-              },
-              child: ListTile(
-                title: Text(
-                  _titleList[(i / 2).floor()],
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                onTap: () {
-                  _currentIndex = (i / 2).floor();
-                  Func.movePage(
-                    context,
-                    Edit(
-                      title: _titleList[_currentIndex],
-                      current: _memoList[_currentIndex],
-                      forward: _forwardList[_currentIndex],
-                      back: _backList[_currentIndex],
-                      onChangedTitle: _onChangedTitle,
-                      onChangedBody: _onChangedBody,
-                      onChangedForward: _onChangedForward,
-                      onChangedBack: _onChangedBack,
-                    ),
-                  );
-                },
-              ),
-            );
-          },
-        ),
+        body: FutureBuilder(
+            future: loadNovelData(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                var itemCount = _titleList.length * 2;
+                if (itemCount < 0) {
+                  itemCount = 0;
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: itemCount,
+                  itemBuilder: (context, i) {
+                    if (i.isOdd) {
+                      return Divider(
+                        height: 2,
+                        key: Key("divider" + i.toString()),
+                      );
+                    }
+                    return Dismissible(
+                      background: Container(color: Colors.red),
+                      key: UniqueKey(),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction) {
+                        setState(() {
+                          _titleList.removeAt((i / 2).floor());
+                          _memoList.removeAt((i / 2).floor());
+                          _forwardList.removeAt((i / 2).floor());
+                          _backList.removeAt((i / 2).floor());
+                          storeList(_memoList, widget.novelTitle + "memo-list");
+                          storeList(
+                              _titleList, widget.novelTitle + "title-list");
+                          storeList(
+                              _forwardList, widget.novelTitle + "forward-list");
+                          storeList(_backList, widget.novelTitle + "back-list");
+                        });
+                      },
+                      child: ListTile(
+                        title: Text(
+                          _titleList[(i / 2).floor()],
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        onTap: () {
+                          _currentIndex = (i / 2).floor();
+                          Func.movePage(
+                            context,
+                            Edit(
+                              title: _titleList[_currentIndex],
+                              current: _memoList[_currentIndex],
+                              forward: _forwardList[_currentIndex],
+                              back: _backList[_currentIndex],
+                              onChangedTitle: _onChangedTitle,
+                              onChangedBody: _onChangedBody,
+                              onChangedForward: _onChangedForward,
+                              onChangedBack: _onChangedBack,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return const Center(
+                  child: Text("loading..."),
+                );
+              }
+            }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
@@ -113,10 +125,10 @@ class _HomeState extends State<Home> {
               _forwardList.add("");
               _backList.add("");
               _currentIndex = _titleList.length - 1;
-              storeList(_memoList, widget.novelTitle+"memo-list");
-              storeList(_titleList, widget.novelTitle+"title-list");
-              storeList(_forwardList, widget.novelTitle+"forward-list");
-              storeList(_backList, widget.novelTitle+"back-list");
+              storeList(_memoList, widget.novelTitle + "memo-list");
+              storeList(_titleList, widget.novelTitle + "title-list");
+              storeList(_forwardList, widget.novelTitle + "forward-list");
+              storeList(_backList, widget.novelTitle + "back-list");
               Func.movePage(
                 context,
                 Edit(
@@ -151,11 +163,15 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((prefs) {
-      var key = widget.novelTitle+"memo-list";
-      var key2 = widget.novelTitle+"title-list";
-      var key3 = widget.novelTitle+"forward-list";
-      var key4 = widget.novelTitle+"back-list";
+    loadNovelData();
+  }
+
+  Future<List<String>> loadNovelData() async {
+    await SharedPreferences.getInstance().then((prefs) {
+      var key = widget.novelTitle + "memo-list";
+      var key2 = widget.novelTitle + "title-list";
+      var key3 = widget.novelTitle + "forward-list";
+      var key4 = widget.novelTitle + "back-list";
       if (prefs.containsKey(key)) {
         _memoList = prefs.getStringList(key)!;
       }
@@ -169,6 +185,7 @@ class _HomeState extends State<Home> {
         _backList = prefs.getStringList(key4)!;
       }
     });
+    return _memoList;
   }
 
   void storeList(List<String> textList, String key) async {
@@ -182,28 +199,28 @@ class _HomeState extends State<Home> {
   void _onChangedBody(String text) {
     setState(() {
       _memoList[_currentIndex] = text;
-      storeList(_memoList, widget.novelTitle+"memo-list");
+      storeList(_memoList, widget.novelTitle + "memo-list");
     });
   }
 
   void _onChangedTitle(String text) {
     setState(() {
       _titleList[_currentIndex] = text;
-      storeList(_titleList, widget.novelTitle+"title-list");
+      storeList(_titleList, widget.novelTitle + "title-list");
     });
   }
 
   void _onChangedForward(String text) {
     setState(() {
       _forwardList[_currentIndex] = text;
-      storeList(_forwardList, widget.novelTitle+"forward-list");
+      storeList(_forwardList, widget.novelTitle + "forward-list");
     });
   }
 
   void _onChangedBack(String text) {
     setState(() {
       _backList[_currentIndex] = text;
-      storeList(_backList, widget.novelTitle+"back-list");
+      storeList(_backList, widget.novelTitle + "back-list");
     });
   }
 
@@ -216,10 +233,10 @@ class _HomeState extends State<Home> {
           _memoList.clear();
           _forwardList.clear();
           _backList.clear();
-          storeList(_memoList, widget.novelTitle+"memo-list");
-          storeList(_titleList, widget.novelTitle+"title-list");
-          storeList(_forwardList, widget.novelTitle+"forward-list");
-          storeList(_backList, widget.novelTitle+"back-list");
+          storeList(_memoList, widget.novelTitle + "memo-list");
+          storeList(_titleList, widget.novelTitle + "title-list");
+          storeList(_forwardList, widget.novelTitle + "forward-list");
+          storeList(_backList, widget.novelTitle + "back-list");
         });
       },
     );
