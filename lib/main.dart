@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'func.dart';
 import 'select_novel.dart';
+import 'consent.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SelectNovel(),
+      home: Consent(),
     );
   }
 }

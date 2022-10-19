@@ -19,7 +19,6 @@ class _SelectNovelState extends State<SelectNovel> {
   //小説タイトルのリスト
   List<String> _novelList = [];
 
-  bool _consent = false;
 
   //選ばれたメモのインデックス
   var _currentIndex = -1;
@@ -177,17 +176,8 @@ class _SelectNovelState extends State<SelectNovel> {
     await SharedPreferences.getInstance().then(
       (prefs) {
         const key = "novel-list";
-        const key2 = "consent";
         if (prefs.containsKey(key)) {
           _novelList = prefs.getStringList(key)!;
-        }
-        if (prefs.containsKey(key2)) {
-          _consent = prefs.getBool(key2)!;
-          if (!_consent) {
-            Func.movePage(context, Consent());
-            _consent = true;
-            storeBoolean(_consent, key2);
-          }
         }
       },
     );
