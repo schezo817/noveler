@@ -8,7 +8,6 @@ import 'home.dart';
 import 'novel_title_dialog.dart';
 import 'terms_of_service.dart';
 import 'privacy_policy.dart';
-import 'consent.dart';
 
 class SelectNovel extends StatefulWidget {
   @override
@@ -19,6 +18,8 @@ class _SelectNovelState extends State<SelectNovel> {
   //小説タイトルのリスト
   List<String> _novelList = [];
 
+  //小説タイトルのリストのキー
+  final novelKey = "novel-list";
 
   //選ばれたメモのインデックス
   var _currentIndex = -1;
@@ -31,15 +32,12 @@ class _SelectNovelState extends State<SelectNovel> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Noveler"),
-          actions: [
-            // _allClearMemo(),
-          ],
+          title: const Text("Noveler"),
         ),
         drawer: Drawer(
           child: ListView(
             children: <Widget>[
-              DrawerHeader(
+              const DrawerHeader(
                 child: Text("設定"),
               ),
               ListTile(
@@ -47,7 +45,7 @@ class _SelectNovelState extends State<SelectNovel> {
                   onPressed: () async {
                     await Func.movePage(context, TermsOfService());
                   },
-                  child: Text("利用規約"),
+                  child: const Text("利用規約"),
                 ),
               ),
               ListTile(
@@ -55,7 +53,7 @@ class _SelectNovelState extends State<SelectNovel> {
                   onPressed: () async {
                     await Func.movePage(context, PrivacyPolicy());
                   },
-                  child: Text("プライバシーポリシー"),
+                  child: const Text("プライバシーポリシー"),
                 ),
               ),
               /*
@@ -99,13 +97,13 @@ class _SelectNovelState extends State<SelectNovel> {
                       onDismissed: (direction) {
                         setState(() {
                           _novelList.removeAt((i / 2).floor());
-                          storeList(_novelList, "novel-list");
+                          storeList(_novelList, novelKey);
                         });
                       },
                       child: ListTile(
                         title: Text(
                           _novelList[(i / 2).floor()],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                           ),
                           maxLines: 1,
@@ -135,13 +133,13 @@ class _SelectNovelState extends State<SelectNovel> {
             String? _novelTitle = await showDialog<String>(
               context: context,
               builder: (context) {
-                return NovelTitleDialog(text: '');
+                return const NovelTitleDialog(text: '');
               },
             );
             setState(() {
               _novelList.add(_novelTitle!);
               _currentIndex = _novelList.length - 1;
-              storeList(_novelList, "novel-list");
+              storeList(_novelList, novelKey);
               Func.movePage(
                 context,
                 Home(
@@ -175,9 +173,8 @@ class _SelectNovelState extends State<SelectNovel> {
   Future<List<String>> loadStart() async {
     await SharedPreferences.getInstance().then(
       (prefs) {
-        const key = "novel-list";
-        if (prefs.containsKey(key)) {
-          _novelList = prefs.getStringList(key)!;
+        if (prefs.containsKey(novelKey)) {
+          _novelList = prefs.getStringList(novelKey)!;
         }
       },
     );
@@ -192,23 +189,4 @@ class _SelectNovelState extends State<SelectNovel> {
     }
   }
 
-  void storeBoolean(bool b, String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    final success = await prefs.setBool(key, b);
-    if (!success) {
-      debugPrint("Failed to store value");
-    }
-  }
-
-  Widget _allClearMemo() {
-    return IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: () {
-        setState(() {
-          _novelList.clear();
-          storeList(_novelList, "novel-list");
-        });
-      },
-    );
-  }
 }

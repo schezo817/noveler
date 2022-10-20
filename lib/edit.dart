@@ -32,7 +32,7 @@ class Edit extends StatefulWidget {
 
 class _EditState extends State<Edit> {
   var _isSelectedTextForm = [true, false, false];
-  var _isTrueindex = 0;
+  var _isTrueIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +80,9 @@ class _EditState extends State<Edit> {
                   ],
                   onPressed: (index) {
                     setState(() {
-                      _isSelectedTextForm[_isTrueindex] = false;
+                      _isSelectedTextForm[_isTrueIndex] = false;
                       _isSelectedTextForm[index] = !_isSelectedTextForm[index];
-                      _isTrueindex = index;
+                      _isTrueIndex = index;
                     });
                   },
                 ),
@@ -99,7 +99,7 @@ class _EditState extends State<Edit> {
                   },
                 ),
                 const Divider(height: 2),
-                _sentenceField(_isTrueindex),
+                _sentenceField(_isTrueIndex),
               ],
             ),
           ),
@@ -107,13 +107,13 @@ class _EditState extends State<Edit> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             var sentence = "";
-            if (_isTrueindex == 0) {
+            if (_isTrueIndex == 0) {
               sentence = widget.current;
             }
-            if (_isTrueindex == 1) {
+            if (_isTrueIndex == 1) {
               sentence = widget.forward;
             }
-            if (_isTrueindex == 2) {
+            if (_isTrueIndex == 2) {
               sentence = widget.back;
             }
             await Clipboard.setData(
@@ -131,7 +131,7 @@ class _EditState extends State<Edit> {
   }
 
   Widget _sentenceField(int index) {
-    if (_isTrueindex == 0) {
+    if (_isTrueIndex == 0) {
       return Column(
         children: <Widget>[
           Text("文字数:" + widget.current.length.toString()),
@@ -149,7 +149,7 @@ class _EditState extends State<Edit> {
         ],
       );
     }
-    if (_isTrueindex == 1) {
+    if (_isTrueIndex == 1) {
       return Column(
         children: <Widget>[
           Text("文字数:" + widget.forward.length.toString()),
@@ -167,7 +167,7 @@ class _EditState extends State<Edit> {
         ],
       );
     }
-    if (_isTrueindex == 2) {
+    if (_isTrueIndex == 2) {
       return Column(
         children: <Widget>[
           Text("文字数:" + widget.back.length.toString()),

@@ -85,7 +85,7 @@ class _ConsentState extends State<Consent> {
         style: Theme.of(context).textTheme.bodyText2,
         children: [
           TextSpan(
-            text: '[同意して登録]をタップすると、',
+            text: '[同意して利用]をタップすると、',
           ),
           TextSpan(
             text: 'プライバシーポリシー',
@@ -116,7 +116,7 @@ class _ConsentState extends State<Consent> {
 
   static Container consentButton(BuildContext context, StatefulWidget page) {
     return haveTextButton(
-        context, page, 44.7, 225, '同意して登録', Colors.green, Colors.white);
+        context, page, 44.7, 225, '同意して利用', Colors.green, Colors.white);
   }
 
   static Container haveTextButton(

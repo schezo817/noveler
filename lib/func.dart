@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Func {
   //共有機能のための関数
@@ -36,4 +37,27 @@ class Func {
       ),
     );
   }
+
+  void storeList(List<String> textList, String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    final success = await prefs.setStringList(key, textList);
+    if (!success) {
+      debugPrint("Failed to store value");
+    }
+  }
+
+  /*
+  //メモの全削除
+  Widget allClearMemo(var list,String key) {
+    return IconButton(
+      icon: Icon(Icons.clear),
+      onPressed: () {
+        setState(() {
+          list.clear();
+          storeList(list, key);
+        });
+      },
+    );
+  }
+   */
 }
