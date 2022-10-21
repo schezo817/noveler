@@ -19,11 +19,6 @@ class _ConsentState extends State<Consent> {
 
   @override
   Widget build(BuildContext context) {
-    if (_consent) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        Func.movePage(context, SelectNovel());
-      });
-    }
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -32,9 +27,18 @@ class _ConsentState extends State<Consent> {
         appBar: AppBar(
           title: Text("同意画面"),
         ),
-        body: Center(
-          child: consentProcess(context, SelectNovel()),
-        ),
+        body: FutureBuilder(
+            future: loadStart(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (_consent) {
+                WidgetsBinding.instance?.addPostFrameCallback((_) {
+                  Func.movePage(context, SelectNovel());
+                });
+              }
+              return Center(
+                child: consentProcess(context, SelectNovel()),
+              );
+            }),
         bottomNavigationBar: AdmobBanner(
           adUnitId: AdMobService().getBannerAdUnitId(),
           adSize: AdmobBannerSize(
