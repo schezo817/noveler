@@ -1,4 +1,3 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'admob.dart';
@@ -83,14 +82,7 @@ Eメールアドレス：hiragi817sc@gmail.com
 
 以上'''),
         ),
-        bottomNavigationBar: AdmobBanner(
-          adUnitId: AdMobService().getBannerAdUnitId(),
-          adSize: AdmobBannerSize(
-            width: MediaQuery.of(context).size.width.toInt(),
-            height: AdMobService().getHeight(context).toInt(),
-            name: 'SMART_BANNER',
-          ),
-        ),
+        bottomNavigationBar: AdMobService.myAdmobBanner(context),
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'admob.dart';
@@ -92,14 +91,7 @@ class _TermsOfServiceState extends State<TermsOfService> {
         本サービスに関して紛争が生じた場合には，当社の本店所在地を管轄する裁判所を専属的合意管轄とします。
             以上'''),
         ),
-        bottomNavigationBar: AdmobBanner(
-          adUnitId: AdMobService().getBannerAdUnitId(),
-          adSize: AdmobBannerSize(
-            width: MediaQuery.of(context).size.width.toInt(),
-            height: AdMobService().getHeight(context).toInt(),
-            name: 'SMART_BANNER',
-          ),
-        ),
+        bottomNavigationBar: AdMobService.myAdmobBanner(context),
       ),
     );
   }

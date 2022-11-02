@@ -13,21 +13,6 @@ class Func {
     );
   }
 
-  //Appbarの共通のための関数
-  static PreferredSizeWidget? myAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      shadowColor: Colors.blue,
-      iconTheme: IconThemeData(
-        color: Colors.blue,
-      ),
-      //共有(share)のボタン
-      actions: [
-        myShare(),
-      ],
-    );
-  }
-
 //ページ遷移のための関数
   static Future movePage(BuildContext context, var pages) async {
     return await Navigator.push(
@@ -45,19 +30,4 @@ class Func {
       debugPrint("Failed to store value");
     }
   }
-
-  /*
-  //メモの全削除
-  Widget allClearMemo(var list,String key) {
-    return IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: () {
-        setState(() {
-          list.clear();
-          storeList(list, key);
-        });
-      },
-    );
-  }
-   */
 }

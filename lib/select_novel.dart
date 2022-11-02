@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:noveler/terms_of_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'admob.dart';
@@ -152,14 +151,7 @@ class _SelectNovelState extends State<SelectNovel> {
             Icons.add,
           ),
         ),
-        bottomNavigationBar: AdmobBanner(
-          adUnitId: AdMobService().getBannerAdUnitId(),
-          adSize: AdmobBannerSize(
-            width: MediaQuery.of(context).size.width.toInt(),
-            height: AdMobService().getHeight(context).toInt(),
-            name: 'SMART_BANNER',
-          ),
-        ),
+        bottomNavigationBar: AdMobService.myAdmobBanner(context),
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'admob.dart';
@@ -156,14 +155,7 @@ class _HomeState extends State<Home> {
             Icons.add,
           ),
         ),
-        bottomNavigationBar: AdmobBanner(
-          adUnitId: AdMobService().getBannerAdUnitId(),
-          adSize: AdmobBannerSize(
-            width: MediaQuery.of(context).size.width.toInt(),
-            height: AdMobService().getHeight(context).toInt(),
-            name: 'SMART_BANNER',
-          ),
-        ),
+        bottomNavigationBar: AdMobService.myAdmobBanner(context),
       ),
     );
   }
@@ -230,23 +222,5 @@ class _HomeState extends State<Home> {
       _backList[_currentIndex] = text;
       storeList(_backList, widget.novelTitle + backKey);
     });
-  }
-
-  Widget _allClearMemo() {
-    return IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: () {
-        setState(() {
-          _titleList.clear();
-          _memoList.clear();
-          _forwardList.clear();
-          _backList.clear();
-          storeList(_memoList, widget.novelTitle + memoKey);
-          storeList(_titleList, widget.novelTitle + titleKey);
-          storeList(_forwardList, widget.novelTitle + forwardKey);
-          storeList(_backList, widget.novelTitle + backKey);
-        });
-      },
-    );
   }
 }

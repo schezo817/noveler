@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 
 class AdMobService {
-  String getBannerAdUnitId() {
+  static String getBannerAdUnitId() {
     // iOSとAndroidで広告ユニットIDを分岐させる
     if (Platform.isAndroid) {
       // Androidの広告ユニットID
@@ -15,10 +16,20 @@ class AdMobService {
   }
 
   // 表示するバナー広告の高さを計算
-  double getHeight(BuildContext context) {
+  static double getHeight(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final percent = (height * 0.06).toDouble();
-
     return percent;
+  }
+
+  static AdmobBanner myAdmobBanner(BuildContext context) {
+    return AdmobBanner(
+      adUnitId: getBannerAdUnitId(),
+      adSize: AdmobBannerSize(
+        width: MediaQuery.of(context).size.width.toInt(),
+        height: getHeight(context).toInt(),
+        name: 'SMART_BANNER',
+      ),
+    );
   }
 }
