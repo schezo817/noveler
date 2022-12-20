@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:noveler/terms_of_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'admob.dart';
@@ -25,6 +28,13 @@ class _SelectNovelState extends State<SelectNovel> {
 
   @override
   Widget build(BuildContext context) {
+    final AdWidget adWidget = AdWidget(ad: myBanner);
+    final Container adContainer = Container(
+      alignment: Alignment.center,
+      child: adWidget,
+      width: myBanner.size.width.toDouble(),
+      height: myBanner.size.height.toDouble(),
+    );
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -151,15 +161,47 @@ class _SelectNovelState extends State<SelectNovel> {
             Icons.add,
           ),
         ),
-        bottomNavigationBar: AdMobService.myAdmobBanner(context),
+        bottomNavigationBar: adContainer,
       ),
     );
   }
+
+  final BannerAd myBanner = BannerAd(
+    //Release ANDROID :ca-app-pub-3375813374638211/7971488896
+    //Release IOS : ca-app-pub-3375813374638211/2646762603
+    adUnitId: Platform.isAndroid
+        ? 'ca-app-pub-3940256099942544/6300978111'
+        : 'ca-app-pub-3940256099942544/2934735716',
+    size: AdSize.banner,
+    request: AdRequest(),
+    listener: BannerAdListener(
+      onAdLoaded: (Ad ad) => print('バナー広告がロードされました'),
+      // Called when an ad request failed.
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        // Dispose the ad here to free resources.
+        ad.dispose();
+        print('バナー広告の読み込みが次の理由で失敗しました: $error');
+      },
+      // Called when an ad opens an overlay that covers the screen.
+      onAdOpened: (Ad ad) => print('バナー広告が開かれました'),
+      // Called when an ad removes an overlay that covers the screen.
+      onAdClosed: (Ad ad) => print('バナー広告が閉じられました'),
+      // Called when an impression occurs on the ad.
+      onAdImpression: (Ad ad) => print('Ad impression.'),
+    ),
+  );
 
   @override
   void initState() {
     super.initState();
     loadStart();
+    myBanner.load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    myBanner.dispose();
   }
 
   Future<List<String>> loadStart() async {

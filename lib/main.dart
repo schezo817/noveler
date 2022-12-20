@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:admob_flutter/admob_flutter.dart';
 import 'func.dart';
 import 'select_novel.dart';
 import 'consent.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Admob.initialize();
+  MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 

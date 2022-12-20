@@ -23,7 +23,16 @@
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-3375813374638211~1248537560</string>
+        <string>ca-app-pub-3375813374638211~1248537560</string>
+    <key>SKAdNetworkItems</key>
+    <array>
+        <dict>
+            <key>SKAdNetworkIdentifier</key>
+                <string>cstr6suwn9.skadnetwork</string>
+        </dict>
+    </array>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>パーソナライズされた広告の表示のために使用いたします。</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

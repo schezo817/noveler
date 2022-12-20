@@ -38,7 +38,6 @@ class _ConsentState extends State<Consent> {
                 child: consentProcess(context, SelectNovel()),
               );
             }),
-        bottomNavigationBar: AdMobService.myAdmobBanner(context),
       ),
     );
   }

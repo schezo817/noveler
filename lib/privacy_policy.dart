@@ -82,7 +82,6 @@ Eメールアドレス：hiragi817sc@gmail.com
 
 以上'''),
         ),
-        bottomNavigationBar: AdMobService.myAdmobBanner(context),
       ),
     );
   }
