@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'func.dart';
 import 'select_novel.dart';
 import 'consent.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
   runApp(const MyApp());
 }
 

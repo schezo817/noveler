@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'admob.dart';
 import 'func.dart';
 import 'privacy_policy.dart';
 import 'select_novel.dart';
