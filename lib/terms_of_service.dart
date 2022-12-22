@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class TermsOfService extends StatefulWidget {
   @override
@@ -15,9 +14,10 @@ class _TermsOfServiceState extends State<TermsOfService> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("利用規約"),
+          title: const Text("利用規約"),
         ),
-        body: SingleChildScrollView(
+        body: const SingleChildScrollView(
+          padding: EdgeInsets.all(8),
           child: Text(
               '''この利用規約（以下，「本規約」といいます。）は，柊（以下，「当社」といいます。）がこのアプリ上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。登録ユーザーの皆さま（以下，「ユーザー」といいます。）には，本規約に従って，本サービスをご利用いただきます。
 

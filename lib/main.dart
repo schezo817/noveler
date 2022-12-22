@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'func.dart';
-import 'select_novel.dart';
 import 'consent.dart';
 
 void main() {
@@ -21,31 +19,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Consent(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: TextButton(
-            onPressed: () {
-              Func.movePage(context, SelectNovel());
-            },
-            child: const Text("Next"),
-          ),
-      ),
     );
   }
 }

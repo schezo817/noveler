@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'func.dart';
 
@@ -31,7 +29,7 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
-  var _isSelectedTextForm = [true, false, false];
+  final _isSelectedTextForm = [true, false, false];
   var _isTrueIndex = 0;
 
   @override
@@ -57,7 +55,7 @@ class _EditState extends State<Edit> {
                   throw 'Unable to launch url $url';
                 }
               },
-              child: Text(
+              child: const Text(
                 "投稿",
                 style: TextStyle(
                   color: Colors.white,
@@ -67,7 +65,6 @@ class _EditState extends State<Edit> {
           ],
         ),
         body: SingleChildScrollView(
-          child: Container(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: <Widget>[
@@ -102,7 +99,6 @@ class _EditState extends State<Edit> {
                 _sentenceField(_isTrueIndex),
               ],
             ),
-          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -185,7 +181,7 @@ class _EditState extends State<Edit> {
         ],
       );
     } else {
-      return Text("不具合が発生しました。再起動してください。");
+      return const Text("不具合が発生しました。再起動してください。");
     }
   }
 }

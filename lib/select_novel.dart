@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:noveler/terms_of_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'func.dart';
 import 'home.dart';
 import 'novel_title_dialog.dart';
-import 'terms_of_service.dart';
 import 'privacy_policy.dart';
 
 class SelectNovel extends StatefulWidget {
@@ -35,42 +32,7 @@ class _SelectNovelState extends State<SelectNovel> {
           title: const Text("Noveler"),
         ),
         drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              const DrawerHeader(
-                child: Text("設定"),
-              ),
-              ListTile(
-                title: TextButton(
-                  onPressed: () async {
-                    await Func.movePage(context, TermsOfService());
-                  },
-                  child: const Text("利用規約"),
-                ),
-              ),
-              ListTile(
-                title: TextButton(
-                  onPressed: () async {
-                    await Func.movePage(context, PrivacyPolicy());
-                  },
-                  child: const Text("プライバシーポリシー"),
-                ),
-              ),
-              /*
-              ListTile(
-                title: TextButton(
-                  onPressed: () async {
-                    await Func.movePage(
-                      context,
-                    );
-                  },
-                  child: Text("投稿ボタンのリンク変更"),
-                ),
-              ),
-
-               */
-            ],
-          ),
+          child: setting(context),
         ),
         body: FutureBuilder(
             future: loadStart(),
@@ -181,4 +143,42 @@ class _SelectNovelState extends State<SelectNovel> {
     }
   }
 
+  ListView setting(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        const DrawerHeader(
+          child: Text("設定"),
+        ),
+        ListTile(
+          title: TextButton(
+            onPressed: () async {
+              await Func.movePage(context, TermsOfService());
+            },
+            child: const Text("利用規約"),
+          ),
+        ),
+        ListTile(
+          title: TextButton(
+            onPressed: () async {
+              await Func.movePage(context, PrivacyPolicy());
+            },
+            child: const Text("プライバシーポリシー"),
+          ),
+        ),
+        /*
+              ListTile(
+                title: TextButton(
+                  onPressed: () async {
+                    await Func.movePage(
+                      context,
+                    );
+                  },
+                  child: Text("投稿ボタンのリンク変更"),
+                ),
+              ),
+
+               */
+      ],
+    );
+  }
 }

@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'edit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Func.dart';
@@ -93,7 +90,7 @@ class _HomeState extends State<Home> {
                       child: ListTile(
                         title: Text(
                           _titleList[(i / 2).floor()],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                           ),
                           maxLines: 1,
@@ -165,7 +162,6 @@ class _HomeState extends State<Home> {
     super.initState();
     loadNovelData();
   }
-
 
   Future<List<String>> loadNovelData() async {
     await SharedPreferences.getInstance().then((prefs) {
