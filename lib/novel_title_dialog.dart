@@ -11,6 +11,7 @@ class NovelTitleDialog extends StatefulWidget {
 class _NovelTitleDialogState extends State<NovelTitleDialog> {
   final controller = TextEditingController();
   final focusNode = FocusNode();
+
   @override
   void dispose() {
     controller.dispose();
@@ -23,9 +24,10 @@ class _NovelTitleDialogState extends State<NovelTitleDialog> {
     super.initState();
     controller.text = widget.text ?? '';
     focusNode.addListener(
-          () {
+      () {
         if (focusNode.hasFocus) {
-          controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length);
+          controller.selection = TextSelection(
+              baseOffset: 0, extentOffset: controller.text.length);
         }
       },
     );

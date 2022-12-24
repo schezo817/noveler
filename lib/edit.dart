@@ -51,28 +51,29 @@ class _EditState extends State<Edit> {
           actions: [
             Func.myShare(),
             FutureBuilder(
-                future: loadLink(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  return TextButton(
-                    onPressed: () async {
-                      String url = _link;
-                      if (await canLaunchUrlString(url)) {
-                        await launchUrlString(
-                          url,
-                          mode: LaunchMode.externalApplication,
-                        );
-                      } else {
-                        throw 'Unable to launch url $url';
-                      }
-                    },
-                    child: const Text(
-                      "投稿",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
+              future: loadLink(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                return TextButton(
+                  onPressed: () async {
+                    String url = _link;
+                    if (await canLaunchUrlString(url)) {
+                      await launchUrlString(
+                        url,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    } else {
+                      throw 'Unable to launch url $url';
+                    }
+                  },
+                  child: const Text(
+                    "投稿",
+                    style: TextStyle(
+                      color: Colors.white,
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
           ],
         ),
         body: SingleChildScrollView(

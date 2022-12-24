@@ -29,7 +29,7 @@ class _ConsentState extends State<Consent> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               //一度同意済みならこの画面をパス
               if (_consent) {
-                WidgetsBinding.instance?.addPostFrameCallback((_) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
                   Func.movePage(context, SelectNovel());
                 });
               }

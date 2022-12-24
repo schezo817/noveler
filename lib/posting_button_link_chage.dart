@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noveler/select_novel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Func.dart';
 
 class PostingButtonLinkChange extends StatefulWidget {
