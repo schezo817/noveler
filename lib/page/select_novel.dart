@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:noveler/posting_button_link_chage.dart';
-import 'package:noveler/terms_of_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'func.dart';
+import 'posting_button_link_change.dart';
+import 'terms_of_service.dart';
+import '../function/func.dart';
 import 'home.dart';
-import 'novel_title_dialog.dart';
+import '../component/novel_title_dialog.dart';
 import 'privacy_policy.dart';
 
 class SelectNovel extends StatefulWidget {

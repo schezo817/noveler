@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'edit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Func.dart';
+import 'edit.dart';
+import '../function/Func.dart';
 
 class Home extends StatefulWidget {
   String novelTitle;

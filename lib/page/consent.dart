@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'func.dart';
+import '../function/func.dart';
 import 'privacy_policy.dart';
 import 'select_novel.dart';
 import 'terms_of_service.dart';

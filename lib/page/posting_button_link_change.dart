@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:noveler/select_novel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Func.dart';
+import 'select_novel.dart';
+import '../function/Func.dart';
 
 class PostingButtonLinkChange extends StatefulWidget {
   @override
