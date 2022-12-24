@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noveler/posting_button_link_chage.dart';
 import 'package:noveler/terms_of_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'func.dart';
@@ -165,19 +166,14 @@ class _SelectNovelState extends State<SelectNovel> {
             child: const Text("プライバシーポリシー"),
           ),
         ),
-        /*
-              ListTile(
-                title: TextButton(
-                  onPressed: () async {
-                    await Func.movePage(
-                      context,
-                    );
-                  },
-                  child: Text("投稿ボタンのリンク変更"),
-                ),
-              ),
-
-               */
+        ListTile(
+          title: TextButton(
+            onPressed: () async {
+              await Func.movePage(context, PostingButtonLinkChange());
+            },
+            child: const Text("投稿ボタンのリンク変更"),
+          ),
+        ),
       ],
     );
   }

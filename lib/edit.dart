@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'func.dart';
 
@@ -32,6 +33,12 @@ class _EditState extends State<Edit> {
   final _isSelectedTextForm = [true, false, false];
   var _isTrueIndex = 0;
 
+  //投稿ボタンのリンク
+  String _link = "";
+
+  //投稿ボタンのリンクのキー
+  final linkKey = "link";
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -43,62 +50,66 @@ class _EditState extends State<Edit> {
           title: Text(widget.title),
           actions: [
             Func.myShare(),
-            TextButton(
-              onPressed: () async {
-                var url = "https://syosetu.com/";
-                if (await canLaunchUrlString(url)) {
-                  await launchUrlString(
-                    url,
-                    mode: LaunchMode.externalApplication,
+            FutureBuilder(
+                future: loadLink(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return TextButton(
+                    onPressed: () async {
+                      String url = _link;
+                      if (await canLaunchUrlString(url)) {
+                        await launchUrlString(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                      } else {
+                        throw 'Unable to launch url $url';
+                      }
+                    },
+                    child: const Text(
+                      "投稿",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   );
-                } else {
-                  throw 'Unable to launch url $url';
-                }
-              },
-              child: const Text(
-                "投稿",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+                }),
           ],
         ),
         body: SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                ToggleButtons(
-                  isSelected: _isSelectedTextForm,
-                  children: const <Widget>[
-                    Text("本文"),
-                    Text("前書き"),
-                    Text("後書き"),
-                  ],
-                  onPressed: (index) {
-                    setState(() {
-                      _isSelectedTextForm[_isTrueIndex] = false;
-                      _isSelectedTextForm[index] = !_isSelectedTextForm[index];
-                      _isTrueIndex = index;
-                    });
-                  },
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              ToggleButtons(
+                isSelected: _isSelectedTextForm,
+                children: const <Widget>[
+                  Text("本文"),
+                  Text("前書き"),
+                  Text("後書き"),
+                ],
+                onPressed: (index) {
+                  setState(() {
+                    _isSelectedTextForm[_isTrueIndex] = false;
+                    _isSelectedTextForm[index] = !_isSelectedTextForm[index];
+                    _isTrueIndex = index;
+                  });
+                },
+              ),
+              TextFormField(
+                controller: TextEditingController(text: widget.title),
+                maxLines: 1,
+                style: const TextStyle(
+                  color: Colors.black,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                TextFormField(
-                  controller: TextEditingController(text: widget.title),
-                  maxLines: 1,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  onChanged: (text) {
-                    widget.title = text;
-                    widget.onChangedTitle(widget.title);
-                  },
-                ),
-                const Divider(height: 2),
-                _sentenceField(_isTrueIndex),
-              ],
-            ),
+                onChanged: (text) {
+                  widget.title = text;
+                  widget.onChangedTitle(widget.title);
+                },
+              ),
+              const Divider(height: 2),
+              _sentenceField(_isTrueIndex),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -183,5 +194,16 @@ class _EditState extends State<Edit> {
     } else {
       return const Text("不具合が発生しました。再起動してください。");
     }
+  }
+
+  Future<String> loadLink() async {
+    await SharedPreferences.getInstance().then(
+      (prefs) {
+        if (prefs.containsKey(linkKey)) {
+          _link = prefs.getString(linkKey)!;
+        }
+      },
+    );
+    return _link;
   }
 }
