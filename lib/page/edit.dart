@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import '../component/unlinked_hp_dialog.dart';
 import '../function/func.dart';
 
 class Edit extends StatefulWidget {
@@ -62,7 +63,12 @@ class _EditState extends State<Edit> {
                         mode: LaunchMode.externalApplication,
                       );
                     } else {
-                      throw 'Unable to launch url $url';
+                      await showDialog<String>(
+                        context: context,
+                        builder: (context) {
+                          return UnlinkedHpDialog(errorText: 'Unable to launch url $url');
+                        },
+                      );
                     }
                   },
                   child: const Text(
