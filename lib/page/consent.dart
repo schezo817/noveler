@@ -12,6 +12,7 @@ class Consent extends StatefulWidget {
 }
 
 class _ConsentState extends State<Consent> {
+  //利用規約とプライバシーポリシーに同意済みかどうかを管理する変数
   bool _consent = false;
 
   @override
@@ -29,9 +30,11 @@ class _ConsentState extends State<Consent> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               //一度同意済みならこの画面をパス
               if (_consent) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Func.movePage(context, SelectNovel());
-                });
+                WidgetsBinding.instance.addPostFrameCallback(
+                  (_) {
+                    Func.movePage(context, SelectNovel());
+                  },
+                );
               }
               return Container(
                 alignment: Alignment.center,
@@ -49,6 +52,7 @@ class _ConsentState extends State<Consent> {
     loadStart();
   }
 
+  //ストレージ内の変数の読み込み
   Future<bool> loadStart() async {
     await SharedPreferences.getInstance().then(
       (prefs) {

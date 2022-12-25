@@ -54,30 +54,7 @@ class _EditState extends State<Edit> {
             FutureBuilder(
               future: loadLink(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                return TextButton(
-                  onPressed: () async {
-                    String url = _link;
-                    if (await canLaunchUrlString(url)) {
-                      await launchUrlString(
-                        url,
-                        mode: LaunchMode.externalApplication,
-                      );
-                    } else {
-                      await showDialog<String>(
-                        context: context,
-                        builder: (context) {
-                          return UnlinkedHpDialog(errorText: 'Unable to launch url $url');
-                        },
-                      );
-                    }
-                  },
-                  child: const Text(
-                    "投稿",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                );
+                return postingButton();
               },
             ),
           ],
@@ -121,14 +98,16 @@ class _EditState extends State<Edit> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             var sentence = "";
-            if (_isTrueIndex == 0) {
-              sentence = widget.current;
-            }
-            if (_isTrueIndex == 1) {
-              sentence = widget.forward;
-            }
-            if (_isTrueIndex == 2) {
-              sentence = widget.back;
+            switch (_isTrueIndex) {
+              case 0:
+                sentence = widget.current;
+                break;
+              case 1:
+                sentence = widget.forward;
+                break;
+              case 2:
+                sentence = widget.back;
+                break;
             }
             await Clipboard.setData(
               ClipboardData(
@@ -145,61 +124,60 @@ class _EditState extends State<Edit> {
   }
 
   Widget _sentenceField(int index) {
-    if (_isTrueIndex == 0) {
-      return Column(
-        children: <Widget>[
-          Text("文字数:" + widget.current.length.toString()),
-          TextFormField(
-            controller: TextEditingController(text: widget.current),
-            maxLines: 999,
-            style: const TextStyle(
-              color: Colors.black,
+    switch (_isTrueIndex) {
+      case 0:
+        return Column(
+          children: <Widget>[
+            Text("文字数:" + widget.current.length.toString()),
+            TextFormField(
+              controller: TextEditingController(text: widget.current),
+              maxLines: 999,
+              style: const TextStyle(
+                color: Colors.black,
+              ),
+              onChanged: (text) {
+                widget.current = text;
+                widget.onChangedBody(widget.current);
+              },
             ),
-            onChanged: (text) {
-              widget.current = text;
-              widget.onChangedBody(widget.current);
-            },
-          ),
-        ],
-      );
-    }
-    if (_isTrueIndex == 1) {
-      return Column(
-        children: <Widget>[
-          Text("文字数:" + widget.forward.length.toString()),
-          TextFormField(
-            controller: TextEditingController(text: widget.forward),
-            maxLines: 999,
-            style: const TextStyle(
-              color: Colors.black,
+          ],
+        );
+      case 1:
+        return Column(
+          children: <Widget>[
+            Text("文字数:" + widget.forward.length.toString()),
+            TextFormField(
+              controller: TextEditingController(text: widget.forward),
+              maxLines: 999,
+              style: const TextStyle(
+                color: Colors.black,
+              ),
+              onChanged: (text) {
+                widget.forward = text;
+                widget.onChangedForward(widget.forward);
+              },
             ),
-            onChanged: (text) {
-              widget.forward = text;
-              widget.onChangedForward(widget.forward);
-            },
-          ),
-        ],
-      );
-    }
-    if (_isTrueIndex == 2) {
-      return Column(
-        children: <Widget>[
-          Text("文字数:" + widget.back.length.toString()),
-          TextFormField(
-            controller: TextEditingController(text: widget.back),
-            maxLines: 999,
-            style: const TextStyle(
-              color: Colors.black,
+          ],
+        );
+      case 2:
+        return Column(
+          children: <Widget>[
+            Text("文字数:" + widget.back.length.toString()),
+            TextFormField(
+              controller: TextEditingController(text: widget.back),
+              maxLines: 999,
+              style: const TextStyle(
+                color: Colors.black,
+              ),
+              onChanged: (text) {
+                widget.back = text;
+                widget.onChangedBack(widget.back);
+              },
             ),
-            onChanged: (text) {
-              widget.back = text;
-              widget.onChangedBack(widget.back);
-            },
-          ),
-        ],
-      );
-    } else {
-      return const Text("不具合が発生しました。再起動してください。");
+          ],
+        );
+      default:
+        return const Text("不具合が発生しました。再起動してください。");
     }
   }
 
@@ -212,5 +190,34 @@ class _EditState extends State<Edit> {
       },
     );
     return _link;
+  }
+
+  TextButton postingButton() {
+    return TextButton(
+      onPressed: () async {
+        String url = _link;
+        if (await canLaunchUrlString(url)) {
+          await launchUrlString(
+            url,
+            mode: LaunchMode.externalApplication,
+          );
+        } else {
+          await showDialog<String>(
+            context: context,
+            builder: (context) {
+              return UnlinkedHpDialog(
+                errorText: 'Unable to launch url $url',
+              );
+            },
+          );
+        }
+      },
+      child: const Text(
+        "投稿",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 }
