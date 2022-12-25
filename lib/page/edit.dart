@@ -31,7 +31,10 @@ class Edit extends StatefulWidget {
 }
 
 class _EditState extends State<Edit> {
+  //トグルボタンの真偽管理の配列
   final _isSelectedTextForm = [true, false, false];
+
+  //トグルボタンの真になっている番号
   var _isTrueIndex = 0;
 
   //投稿ボタンのリンク

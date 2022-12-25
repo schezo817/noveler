@@ -26,17 +26,7 @@ class _PostingButtonLinkChangeState extends State<PostingButtonLinkChange> {
         appBar: AppBar(
           title: const Text("投稿ボタンのリンク変更"),
           actions: [
-            TextButton(
-              onPressed: () async {
-                _onChangedLink("https://syosetu.com");
-              },
-              child: const Text(
-                "初期化",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            linkInitializationButton(),
           ],
         ),
         body: FutureBuilder(
@@ -113,5 +103,19 @@ class _PostingButtonLinkChangeState extends State<PostingButtonLinkChange> {
       _link = text;
       storeString(_link, linkKey);
     });
+  }
+
+  TextButton linkInitializationButton(){
+    return TextButton(
+      onPressed: () async {
+        _onChangedLink("https://syosetu.com");
+      },
+      child: const Text(
+        "初期化",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 }
