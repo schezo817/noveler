@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../function/dimensions.dart';
 import 'select_novel.dart';
 import '../function/Func.dart';
 
@@ -33,7 +34,7 @@ class _PostingButtonLinkChangeState extends State<PostingButtonLinkChange> {
             future: loadLink(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Container(
-                padding: const EdgeInsets.all(8),
+                padding: Dimensions.defaultEdge(),
                 child: Column(
                   children: <Widget>[
                     const Text("更新する投稿リンクを入力"),
@@ -52,10 +53,10 @@ class _PostingButtonLinkChangeState extends State<PostingButtonLinkChange> {
                         backgroundColor: Colors.blue,
                         shape: const StadiumBorder(),
                       ),
-                      child: const Text(
+                      child: Text(
                         "保存",
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: Dimensions.bigFont(),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -105,7 +106,7 @@ class _PostingButtonLinkChangeState extends State<PostingButtonLinkChange> {
     });
   }
 
-  TextButton linkInitializationButton(){
+  TextButton linkInitializationButton() {
     return TextButton(
       onPressed: () async {
         _onChangedLink("https://syosetu.com");

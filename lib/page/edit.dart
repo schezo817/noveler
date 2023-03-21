@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:noveler/function/dimensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../component/unlinked_hp_dialog.dart';
@@ -63,7 +64,7 @@ class _EditState extends State<Edit> {
           ],
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(8.0),
+          padding: Dimensions.defaultEdge(),
           child: Column(
             children: <Widget>[
               ToggleButtons(

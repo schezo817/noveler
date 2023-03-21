@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noveler/function/dimensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'edit.dart';
 import '../function/Func.dart';
@@ -61,7 +62,7 @@ class _HomeState extends State<Home> {
                   itemCount = 0;
                 }
                 return ListView.builder(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: Dimensions.defaultEdge(),
                   itemCount: itemCount,
                   itemBuilder: (context, i) {
                     if (i.isOdd) {
@@ -90,8 +91,8 @@ class _HomeState extends State<Home> {
                       child: ListTile(
                         title: Text(
                           _titleList[(i / 2).floor()],
-                          style: const TextStyle(
-                            fontSize: 18,
+                          style: TextStyle(
+                            fontSize: Dimensions.normalFont(),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noveler/function/dimensions.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   @override
@@ -16,9 +17,9 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
         appBar: AppBar(
           title: const Text("プライバシーポリシー"),
         ),
-        body: const SingleChildScrollView(
-          padding: EdgeInsets.all(8),
-          child: Text('''プライバシーポリシー
+        body: SingleChildScrollView(
+          padding: Dimensions.defaultEdge(),
+          child: const Text('''プライバシーポリシー
           柊（以下，「当社」といいます。）は，本ウェブサイト上で提供するサービス（以下,「本サービス」といいます。）における，ユーザーの個人情報の取扱いについて，以下のとおりプライバシーポリシー（以下，「本ポリシー」といいます。）を定めます。
 
           第1条（個人情報）

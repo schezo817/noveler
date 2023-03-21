@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noveler/function/dimensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'posting_button_link_change.dart';
@@ -45,7 +46,7 @@ class _SelectNovelState extends State<SelectNovel> {
                   itemCount = 0;
                 }
                 return ListView.builder(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: Dimensions.defaultEdge(),
                   itemCount: itemCount,
                   itemBuilder: (context, i) {
                     if (i.isOdd) {
@@ -67,8 +68,8 @@ class _SelectNovelState extends State<SelectNovel> {
                       child: ListTile(
                         title: Text(
                           _novelList[(i / 2).floor()],
-                          style: const TextStyle(
-                            fontSize: 18,
+                          style: TextStyle(
+                            fontSize: Dimensions.normalFont(),
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -77,9 +78,7 @@ class _SelectNovelState extends State<SelectNovel> {
                           _currentIndex = (i / 2).floor();
                           Func.movePage(
                             context,
-                            Home(
-                              novelTitle: _novelList[_currentIndex],
-                            ),
+                            Home(novelTitle: _novelList[_currentIndex]),
                           );
                         },
                       ),

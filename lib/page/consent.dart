@@ -1,30 +1,24 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../function/dimensions.dart';
 import '../function/func.dart';
 import 'privacy_policy.dart';
 import 'select_novel.dart';
 import 'terms_of_service.dart';
 
-class Consent extends StatefulWidget {
-  @override
-  _ConsentState createState() => _ConsentState();
-}
-
-class _ConsentState extends State<Consent> {
+class Consent extends ConsumerWidget {
   //利用規約とプライバシーポリシーに同意済みかどうかを管理する変数
   bool _consent = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return WillPopScope(
       onWillPop: () async {
         return false;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("同意画面"),
-        ),
         body: FutureBuilder(
             future: loadStart(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -38,18 +32,12 @@ class _ConsentState extends State<Consent> {
               }
               return Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.all(8),
+                padding: Dimensions.defaultEdge(),
                 child: consentProcess(context, SelectNovel()),
               );
             }),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadStart();
   }
 
   //ストレージ内の変数の読み込み
@@ -66,13 +54,13 @@ class _ConsentState extends State<Consent> {
   }
 
   //プライバシーポリシーと利用規約の同意用文章と同意ボタンの手順的結合モジュール
-  static Widget consentProcess(BuildContext context, StatefulWidget page) {
+  static Widget consentProcess(BuildContext context, Widget page) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         consentMessage(context),
         Container(
-          height: 33.35,
+          height: Dimensions.midHeight(),
         ),
         consentButton(context, page),
       ],
@@ -84,7 +72,7 @@ class _ConsentState extends State<Consent> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyMedium,
         children: [
           const TextSpan(
             text: '[同意して開始]をタップすると、',
@@ -117,15 +105,15 @@ class _ConsentState extends State<Consent> {
   }
 
   //同意ボタン
-  static SizedBox consentButton(BuildContext context, StatefulWidget page) {
-    return haveTextButton(
-        context, page, 44.7, 225, '同意して開始', Colors.green, Colors.white);
+  static SizedBox consentButton(BuildContext context, Widget page) {
+    return haveTextButton(context, page, Dimensions.midHeight() * 2,
+        Dimensions.midWidth(), '同意して開始', Colors.green, Colors.white);
   }
 
   //文章を持つ遷移ボタン
   static SizedBox haveTextButton(
       BuildContext context,
-      StatefulWidget page,
+      Widget page,
       double _height,
       double _width,
       String text,
@@ -142,7 +130,7 @@ class _ConsentState extends State<Consent> {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 24,
+            fontSize: Dimensions.bigFont(),
             fontWeight: FontWeight.bold,
             color: textColor,
           ),
