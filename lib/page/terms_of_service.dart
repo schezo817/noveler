@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:noveler/function/dimensions.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TermsOfService extends StatefulWidget {
+
+class TermsOfService extends ConsumerStatefulWidget {
   @override
-  _TermsOfServiceState createState() => _TermsOfServiceState();
+  ConsumerState createState() => _TermsOfServiceState();
 }
 
-class _TermsOfServiceState extends State<TermsOfService> {
+class _TermsOfServiceState extends ConsumerState<TermsOfService> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

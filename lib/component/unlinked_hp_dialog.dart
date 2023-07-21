@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../function/Func.dart';
 import '../page/posting_button_link_change.dart';
 
-class UnlinkedHpDialog extends StatefulWidget {
+class UnlinkedHpDialog extends ConsumerStatefulWidget {
   String errorText;
 
   UnlinkedHpDialog({
@@ -11,10 +12,10 @@ class UnlinkedHpDialog extends StatefulWidget {
   });
 
   @override
-  State<UnlinkedHpDialog> createState() => _UnlinkedHpDialogState();
+  ConsumerState createState() => _UnlinkedHpDialogState();
 }
 
-class _UnlinkedHpDialogState extends State<UnlinkedHpDialog> {
+class _UnlinkedHpDialogState extends ConsumerState<UnlinkedHpDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

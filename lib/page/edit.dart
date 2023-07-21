@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noveler/function/dimensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../component/unlinked_hp_dialog.dart';
 import '../function/func.dart';
 
-class Edit extends StatefulWidget {
+class Edit extends ConsumerStatefulWidget {
   String title;
   String current;
   String forward;
@@ -28,10 +29,10 @@ class Edit extends StatefulWidget {
   });
 
   @override
-  _EditState createState() => _EditState();
+  ConsumerState createState() => _EditState();
 }
 
-class _EditState extends State<Edit> {
+class _EditState extends ConsumerState<Edit> {
   //トグルボタンの真偽管理の配列
   final _isSelectedTextForm = [true, false, false];
 

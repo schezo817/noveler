@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:noveler/function/dimensions.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PrivacyPolicy extends StatefulWidget {
+class PrivacyPolicy extends ConsumerStatefulWidget {
   @override
-  _PrivacyPolicyState createState() => _PrivacyPolicyState();
+  ConsumerState createState() => _PrivacyPolicyState();
 }
 
-class _PrivacyPolicyState extends State<PrivacyPolicy> {
+class _PrivacyPolicyState extends ConsumerState<PrivacyPolicy> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

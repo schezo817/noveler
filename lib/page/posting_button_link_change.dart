@@ -3,14 +3,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../function/dimensions.dart';
 import 'select_novel.dart';
 import '../function/Func.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PostingButtonLinkChange extends StatefulWidget {
+class PostingButtonLinkChange extends ConsumerStatefulWidget {
   @override
-  _PostingButtonLinkChangeState createState() =>
+  ConsumerState createState() =>
       _PostingButtonLinkChangeState();
 }
 
-class _PostingButtonLinkChangeState extends State<PostingButtonLinkChange> {
+class _PostingButtonLinkChangeState extends ConsumerState<PostingButtonLinkChange> {
   //投稿ボタンのリンク
   String _link = "";
 

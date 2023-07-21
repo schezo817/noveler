@@ -3,8 +3,9 @@ import 'package:noveler/function/dimensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'edit.dart';
 import '../function/Func.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Home extends StatefulWidget {
+class Home extends ConsumerStatefulWidget {
   String novelTitle;
 
   Home({
@@ -12,10 +13,10 @@ class Home extends StatefulWidget {
   });
 
   @override
-  _HomeState createState() => _HomeState();
+  ConsumerState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends ConsumerState<Home> {
   //本文管理
   List<String> _memoList = [];
 

@@ -8,13 +8,14 @@ import '../function/func.dart';
 import 'home.dart';
 import '../component/novel_title_dialog.dart';
 import 'privacy_policy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SelectNovel extends StatefulWidget {
+class SelectNovel extends ConsumerStatefulWidget {
   @override
-  _SelectNovelState createState() => _SelectNovelState();
+  ConsumerState createState() => _SelectNovelState();
 }
 
-class _SelectNovelState extends State<SelectNovel> {
+class _SelectNovelState extends ConsumerState<SelectNovel> {
   //小説タイトルのリスト
   List<String> _novelList = [];
 

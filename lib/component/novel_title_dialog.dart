@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NovelTitleDialog extends StatefulWidget {
+class NovelTitleDialog extends ConsumerStatefulWidget {
   const NovelTitleDialog({Key? key, this.text}) : super(key: key);
   final String? text;
 
   @override
-  State<NovelTitleDialog> createState() => _NovelTitleDialogState();
+  ConsumerState createState() => _NovelTitleDialogState();
 }
 
-class _NovelTitleDialogState extends State<NovelTitleDialog> {
+class _NovelTitleDialogState extends ConsumerState<NovelTitleDialog> {
   final controller = TextEditingController();
   final focusNode = FocusNode();
 
